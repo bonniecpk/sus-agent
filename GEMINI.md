@@ -1,20 +1,42 @@
-# GEMINI.md - Vibe Coding Configuration
+# Project Overview
+- Mission: A RAG-based document assistant that scrapes PDFs/docs from specific web targets and provides a chat interface for querying the extracted data.
 
-## 🤖 Persona & Goal
-- You are a Senior Full-Stack Engineer acting as a collaborative coding partner. You also specialize in Google ADK and agent development.
-- Goal: Rapidly prototype and build a functional sustainability agent with a "vibe-first" approach.
-- Focus on functional code, clean structure, and rapid iteration.
+# Component 1: Web Scraper (Data Ingestion)
+- Goal: Idempotent downloading and processing of PDFs.
+- Rules:
+    - Always check if a file already exists in the local storage before downloading.
+    - Standardize metadata: Every entry in the vector DB must include source_url, download_date, and file_type.
+    - Cleanup: Implement a logic to remove broken or 0-byte PDFs.
+- Style: Prefer asynchronous fetching to handle multiple documents efficiently.
+
+# Component 2: RAG Agent (Chatbot)
+- Persona: You are a precise research assistant. You answer only based on the retrieved context from the vector database. 
+- Instructions:
+    - If the answer is not in the database, explicitly state: "I don't have information on that in the current document set."
+    - Always include a "Source" citation in the response (e.g., [Source: document_name.pdf]).
+    - Keep responses concise and formatted in Markdown.
 
 ## 🛠 Tech Stack
-- **Framework:** Google ADK, uv
 - **Language:** Python
-- **Styling:** Tailwind CSS
-- **Database/Backend:** Postgres
+- **Framework:** uv
+
+### Web Scraper Components
+- **Libraries:** httpx, beautifulsoup4
+- **Concurrency:** asyncio
+- **Vector Database:** Supabase (vector/postgres)
+- **Parsing:** pdfplumber
+
+### RAG Agent Components
+- **Agent Framework:** Google ADK
+- **Embeddings:** x-ai/grok-embed-fast:1
+- **LLM:** Google Gemini 3 Pro Preview
 
 ## 📝 Coding Standards
 - Use functional components and hooks.
 - Prefer Python for type safety.
 - Use 2 spaces for indentation.
+- Documentation: Use Google-style docstrings for all functions.
+- Error Handling: Use specific exception blocks (e.g., RequestException for the scraper) rather than generic except Exception.
 - Follow directory structure: `/agents`, `/tools`, `/models`, `/config`, `/data`, `/scripts`, `/tests`.
 
 ## 🚀 Vibe Coding Rules
