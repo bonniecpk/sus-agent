@@ -17,14 +17,17 @@
     - Keep responses concise and formatted in Markdown.
 
 ## 🛠 Tech Stack
+Only suggest technologies that belongs to Google or open source projects.
+
 - **Language:** Python
 - **Framework:** uv
 
 ### Web Scraper Components
 - **Libraries:** httpx, beautifulsoup4
 - **Concurrency:** asyncio
-- **Vector Database:** Supabase (vector/postgres)
 - **Parsing:** pdfplumber
+- **Database:** Use PostgreSQL with the `pgvector` extension.
+- **Table Schema:** `documents` table should have `id`, `content`, `metadata` (JSONB), and `embedding` (vector(1536)).
 
 ### RAG Agent Components
 - **Agent Framework:** Google ADK
@@ -32,12 +35,14 @@
 - **LLM:** Google Gemini 3 Pro Preview
 
 ## 📝 Coding Standards
-- Use functional components and hooks.
 - Prefer Python for type safety.
 - Use 2 spaces for indentation.
 - Documentation: Use Google-style docstrings for all functions.
 - Error Handling: Use specific exception blocks (e.g., RequestException for the scraper) rather than generic except Exception.
-- Follow directory structure: `/agents`, `/tools`, `/models`, `/config`, `/data`, `/scripts`, `/tests`.
+- Only execute `uv` commands to install any dependencies. Avoid installing and using system-wide packages. For example, you must not run `python`, `python3`, `pip` or `pip3` commands as a system-wide package manager and you must use `python3` or `pip3` under a virtual environment.
+- Follow directory structure: 
+    - For the web scraper components: `/scraper`, `/scraper/models`, `/scraper/config`, `/scraper/data`, `/scraper/scripts`, `/scraper/tests`.
+    - For the chatbot components: `/chatbot`, `/chatbot/models`, `/chatbot/config`, `/chatbot/data`, `/chatbot/scripts`, `/chatbot/tests`.
 
 ## 🚀 Vibe Coding Rules
 - **Proactive Documentation:** Update `README.md` and `CHANGELOG.md` with every significant feature.
